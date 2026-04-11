@@ -1,6 +1,4 @@
-using static DeckOfPlayingCards.Card;
-
-namespace DeckOfPlayingCards
+namespace DeckOfPlayingCardsLibrary
 {
     /// <summary>
     /// A static class that provides extension methods for the `Card.Rank` and `Card.Suit` enums to facilitate the display of card ranks and suits as strings or Unicode characters.
@@ -15,7 +13,7 @@ namespace DeckOfPlayingCards
         /// <param name="rank">The card rank.</param>
         /// <param name="displayTenAsT">Whether the rank "Ten" should be displayed as "T". Default is false (displays "10").</param>
         /// <returns>A one or two character string that represents the value of the rank.</returns>
-        public static string getDisplayString(this Rank rank, bool displayTenAsT = false)
+        public static string GetDisplayString(this Rank rank, bool displayTenAsT = false)
         {
             switch (rank)
             {
@@ -44,21 +42,16 @@ namespace DeckOfPlayingCards
         /// </summary>
         /// <param name="suit">The card suit.</param>
         /// <returns>A one character Unicode string that represents the value of the suit.</returns>
-        public static string? getDisplayString(this Suit suit)
+        public static string? GetDisplayString(this Suit suit)
         {
-            switch (suit)
+            return suit switch
             {
-                case Suit.Hearts:
-                    return "\u2665"; // Heart symbol
-                case Suit.Spades:
-                    return "\u2660"; // Spade symbol
-                case Suit.Diamonds:
-                    return "\u2666"; // Diamond symbol
-                case Suit.Clubs:
-                    return "\u2663"; // Club symbol
-                default:
-                    throw new ArgumentException("Undefined suit value");
-            }
+                Suit.Hearts => "\u2665", // Heart symbol
+                Suit.Spades => "\u2660", // Spade symbol
+                Suit.Diamonds => "\u2666", // Diamond symbol
+                Suit.Clubs => "\u2663", // Club symbol
+                _ => throw new ArgumentException("Undefined suit value"),
+            };
         }
     }
 }

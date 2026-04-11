@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace DeckOfPlayingCards
+namespace DeckOfPlayingCardsLibrary
 {
     /// <summary>
     /// Represents a deck of playing cards.
@@ -11,21 +11,18 @@ namespace DeckOfPlayingCards
         /// <summary>
         /// The list of 52 cards in this deck, possibly shuffled.
         /// </summary>
-        public ReadOnlyCollection<Card> cards
-        {
-            get { return this._cards.AsReadOnly(); }
-        }
+        public ReadOnlyCollection<Card> Cards => this._cards.AsReadOnly();
 
         /// <summary>
         /// The list of 52 cards in this deck, possibly shuffled.
         /// </summary>
-        private List<Card> _cards { get; set; }
+        private List<Card> _cards;
 
         /// <summary>
         /// The index of the card that is currently at the top of the deck and next to be drawn.
         /// 0 if no cards have been drawn yet or if the deck has been reset.
         /// </summary>
-        private int _index { get; set; }
+        private int _index;
 
         /// <summary>
         /// Constructor for creating a new deck.
@@ -42,29 +39,24 @@ namespace DeckOfPlayingCards
         /// </summary>
         /// <param name="cards">An optional list of cards to initialize the deck. If not provided, it results in a standard 52-card deck.</param>
         /// <returns>A new deck of cards. If the "cards" parameter is not provided, it will be a standard deck of 52 cards.</returns>
-        public static Deck get(List<Card>? cards = null)
+        public static Deck Get(List<Card>? cards = null)
         {
-            if (cards != null)
-            {
-                return new Deck(cards);
-            }
-
-            return Deck.getStandardDeck();
+            return cards != null ? new Deck(cards) : Deck.GetStandardDeck();
         }
 
         /// <summary>
         /// Creates and returns a standard 52-card deck.
         /// </summary>
         /// <returns>A new Deck object representing a standard deck of 52 playing cards.</returns>
-        private static Deck getStandardDeck()
+        private static Deck GetStandardDeck()
         {
             // Initialize an empty list to hold the cards.
             var cards = new List<Card>();
 
             // Generate cards for each suit and rank combination.
-            foreach (Card.Suit suit in Enum.GetValues(typeof(Card.Suit)))
+            foreach (var suit in Enum.GetValues<Suit>())
             {
-                foreach (Card.Rank rank in Enum.GetValues(typeof(Card.Rank)))
+                foreach (var rank in Enum.GetValues<Rank>())
                 {
                     cards.Add(new Card(rank, suit));
                 }
@@ -79,13 +71,10 @@ namespace DeckOfPlayingCards
         /// </summary>
         /// <param name="includeDrawnCards">Indicates whether drawn cards should be shuffled back into the deck.</param>
         /// <param name="random">A pre-defined random variable. A new one will be created if not provided.</param>
-        public void shuffle(bool includeDrawnCards = true, Random? random = null)
+        public void Shuffle(bool includeDrawnCards = true, Random? random = null)
         {
             // Initialize random if not done already.
-            if (random == null)
-            {
-                random = new Random();
-            }
+            random ??= new Random();
 
             var cardsToNotShuffle = new List<Card>();
             var cardsToShuffle = this._cards;
@@ -104,7 +93,7 @@ namespace DeckOfPlayingCards
             else
             {
                 // Reset the index so cards get drawn from the top again.
-                this.reset();
+                this.Reset();
             }
 
             // Actually shuffle the cards.
@@ -118,7 +107,7 @@ namespace DeckOfPlayingCards
         /// The card does not actually get removed from the deck.
         /// </summary>
         /// <returns>The card corresponding to the current index, or null if the current index is out of bounds.</returns>
-        public Card? draw()
+        public Card? Draw()
         {
             if (this._index >= this._cards.Count)
             {
@@ -137,7 +126,7 @@ namespace DeckOfPlayingCards
         /// This adds the already drawn cards back into the deck, in the same order.
         /// This does NOT mean un-shuffling the deck.
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             this._index = 0;
         }
