@@ -13,6 +13,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
+  check_formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      
+      - run: |
+          dotnet tool restore
+          dotnet csharpier check .
+
   build-and-test:
     runs-on: ubuntu-latest
 
