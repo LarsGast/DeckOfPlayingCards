@@ -34,7 +34,7 @@
             var deck = Deck.Get(customCards);
 
             // Assert
-           Assert.That(deck.Cards.Select(Key), Is.EquivalentTo(customCards.Select(Key)));
+            Assert.That(deck.Cards.Select(Key), Is.EquivalentTo(customCards.Select(Key)));
         }
 
         [Test]
