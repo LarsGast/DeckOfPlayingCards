@@ -1,164 +1,251 @@
-namespace DeckOfCardsTests {
-	public class Tests {
+namespace DeckOfCardsTests
+{
+    public class Tests
+    {
+        /// <summary>
+        /// Tests whether the deck shuffle is actually random.
+        /// So: the distribution of cards is uniform.
+        /// </summary>
+        [Test]
+        public void shuffleIsRandom()
+        {
+            // Initiate some variables.
+            var random = new Random(1);
+            var deck = Deck.get();
+            int numberOfIterations = 1000;
 
-		/// <summary>
-		/// Tests whether the deck shuffle is actually random.
-		/// So: the distribution of cards is uniform.
-		/// </summary>
-		[Test]
-		public void shuffleIsRandom() {
+            // Dictionary to store the frequency of each card after shuffling.
+            var cardFrequency = new Dictionary<Card, int>();
 
-			// Initiate some variables.
-			var random = new Random(1);
-			var deck = Deck.get();
-			int numberOfIterations = 1000;
+            foreach (var card in deck.cards)
+            {
+                cardFrequency[card] = 0;
+            }
 
-			// Dictionary to store the frequency of each card after shuffling.
-			var cardFrequency = new Dictionary<Card, int>();
+            // Perform shuffling multiple times and count the frequency of each card.
+            for (int i = 0; i < numberOfIterations; i++)
+            {
+                // Include the random variable so that the default doesn't take the same seed.
+                deck.shuffle(random: random);
 
-			foreach(var card in deck.cards) {
-				cardFrequency[card] = 0;
-			}
+                // Store which index the each card is shuffled.
+                int cardIndex = 0;
 
-			// Perform shuffling multiple times and count the frequency of each card.
-			for (int i = 0; i < numberOfIterations; i++) {
+                foreach (var card in deck.cards)
+                {
+                    cardFrequency[card] = cardFrequency[card] + cardIndex;
+                    cardIndex++;
+                }
+            }
 
-				// Include the random variable so that the default doesn't take the same seed.
-				deck.shuffle(random: random);
+            // Calculate the expected average card index after shuffling (assuming a uniform distribution).
+            double averageIndex = (52 - 1) / 2.0;
 
-				// Store which index the each card is shuffled.
-				int cardIndex = 0;
+            // Calculate the chi-square statistic
+            double chiSquare = 0;
 
-				foreach(var card in deck.cards) {
-					cardFrequency[card] = cardFrequency[card] + cardIndex;
-					cardIndex++;
-				}
-			}
+            foreach (var card in deck.cards)
+            {
+                // The observer average index is the observed indexes summed up divided by the number of shuffles.
+                double observedAverageIndex = (double)cardFrequency[card] / numberOfIterations;
 
-			// Calculate the expected average card index after shuffling (assuming a uniform distribution).
-			double averageIndex = (52 - 1) / 2.0;
+                // Calculate the chi-square contribution for this card.
+                double chiSquareContribution =
+                    Math.Pow(observedAverageIndex - averageIndex, 2) / averageIndex;
+                chiSquare += chiSquareContribution;
+            }
 
-			// Calculate the chi-square statistic
-			double chiSquare = 0;
+            // Degrees of freedom for a deck of cards is (number of cards - 1).
+            int degreesOfFreedom = 52 - 1;
 
-			foreach(var card in deck.cards) {
-				// The observer average index is the observed indexes summed up divided by the number of shuffles.
-				double observedAverageIndex = (double)cardFrequency[card] / numberOfIterations;
+            // Set the significance level (alpha) for the chi-square test.
+            // 0.05 here means we want to be 95% certain the distibution is uniform.
+            double alpha = 0.05;
 
-				// Calculate the chi-square contribution for this card.
-				double chiSquareContribution = Math.Pow(observedAverageIndex - averageIndex, 2) / averageIndex;
-				chiSquare += chiSquareContribution;
-			}
+            // Use chi-square distribution table to get the critical value for the given significance level and degrees of freedom.
+            ChiSquared chiSquaredDist = new ChiSquared(degreesOfFreedom);
+            double criticalValue = chiSquaredDist.InverseCumulativeDistribution(1 - alpha);
 
-			// Degrees of freedom for a deck of cards is (number of cards - 1).
-			int degreesOfFreedom = 52 - 1;
+            // Perform the chi-square test.
+            Assert.That(chiSquare, Is.LessThan(criticalValue), "The deck shuffle is not random.");
+        }
 
-			// Set the significance level (alpha) for the chi-square test.
-			// 0.05 here means we want to be 95% certain the distibution is uniform.
-			double alpha = 0.05;
+        /// <summary>
+        /// Tests whether the cards that are already drawn, don't get shuffled back into the deck if so specified.
+        /// </summary>
+        [Test]
+        public void drawnCardsDoNotShuffle()
+        {
+            var deck = Deck.get();
+            deck.shuffle();
+            var numberOfCards = 10;
 
-			// Use chi-square distribution table to get the critical value for the given significance level and degrees of freedom.
-			ChiSquared chiSquaredDist = new ChiSquared(degreesOfFreedom);
-			double criticalValue = chiSquaredDist.InverseCumulativeDistribution(1 - alpha);
+            var firstTenCards = new List<Card>();
 
-			// Perform the chi-square test.
-			Assert.That(chiSquare, Is.LessThan(criticalValue), "The deck shuffle is not random.");
-		}
+            // Draw 10 cards.
+            for (int i = 0; i < numberOfCards; i++)
+            {
+                firstTenCards.Add(deck.draw());
+            }
 
-		/// <summary>
-		/// Tests whether the cards that are already drawn, don't get shuffled back into the deck if so specified.
-		/// </summary>
-		[Test]
-		public void drawnCardsDoNotShuffle() {
-			var deck = Deck.get();
-			deck.shuffle();
-			var numberOfCards = 10;
+            // Reset the deck so the already drawn cards go back onto the top.
+            deck.reset();
 
-			var firstTenCards = new List<Card>();
+            for (int i = 0; i < numberOfCards / 2; i++)
+            {
+                deck.draw();
+            }
 
-			// Draw 10 cards.
-			for (int i = 0; i < numberOfCards; i++) {
-				firstTenCards.Add(deck.draw());
-			}
+            // Shuffle the remaining cards in the deck.
+            deck.shuffle(includeDrawnCards: false);
 
-			// Reset the deck so the already drawn cards go back onto the top.
-			deck.reset();
+            // Reset the deck so the already drawn cards go back onto the top.
+            deck.reset();
 
-			for (int i = 0; i < numberOfCards / 2; i++) {
-				deck.draw();
-			}
+            // The first five cards should be the same.
+            for (int i = 0; i < numberOfCards / 2; i++)
+            {
+                Assert.That(
+                    firstTenCards[i].equals(deck.draw()),
+                    Is.True,
+                    $"One of the first {numberOfCards / 2} cards is not the same"
+                );
+            }
 
-			// Shuffle the remaining cards in the deck.
-			deck.shuffle(includeDrawnCards: false);
+            var numberOfCardsDifferent = 0;
 
-			// Reset the deck so the already drawn cards go back onto the top.
-			deck.reset();
+            // The second five cards should not be the same.
+            for (int i = numberOfCards / 2; i < numberOfCards; i++)
+            {
+                if (!firstTenCards[i].equals(deck.draw()))
+                {
+                    numberOfCardsDifferent++;
+                }
+            }
 
-			// The first five cards should be the same.
-			for (int i = 0; i < numberOfCards / 2; i++) {
-				Assert.That(firstTenCards[i].equals(deck.draw()), Is.True, $"One of the first {numberOfCards / 2} cards is not the same");
-			}
+            var threshold = 4;
 
-			var numberOfCardsDifferent = 0;
+            Assert.That(
+                numberOfCardsDifferent,
+                Is.GreaterThanOrEqualTo(threshold),
+                $"Less than {threshold} cards are different."
+            );
+        }
 
-			// The second five cards should not be the same.
-			for (int i = numberOfCards / 2; i < numberOfCards; i++) {
-				if (!firstTenCards[i].equals(deck.draw())) {
-					numberOfCardsDifferent++;
-				}
-			}
+        /// <summary>
+        /// Tests whether every card has a display string and that the methods called do not throw an exception.
+        /// </summary>
+        [Test]
+        public void displayEveryCard()
+        {
+            var deck = Deck.get();
 
-			var threshold = 4;
+            foreach (var card in deck.cards)
+            {
+                var assertionMessage =
+                    $"Exception thrown while getting the display string of the {card.rank} of {card.suit}";
 
-			Assert.That(numberOfCardsDifferent, Is.GreaterThanOrEqualTo(threshold), $"Less than {threshold} cards are different.");
-		}
+                Assert.Multiple(() =>
+                {
+                    Assert.That(
+                        () =>
+                        {
+                            card.getDisplayString(displayTenAsT: false);
+                        },
+                        Throws.Nothing,
+                        assertionMessage
+                    );
+                    Assert.That(
+                        () =>
+                        {
+                            card.getDisplayString(displayTenAsT: true);
+                        },
+                        Throws.Nothing,
+                        assertionMessage
+                    );
+                });
+            }
+        }
 
-		/// <summary>
-		/// Tests whether every card has a display string and that the methods called do not throw an exception.
-		/// </summary>
-		[Test]
-		public void displayEveryCard() {
-			var deck = Deck.get();
+        /// <summary>
+        /// Test whether creating an empty deck has valid results.
+        /// </summary>
+        [Test]
+        public void emptyDeckIsValid()
+        {
+            var deck = Deck.get(new List<Card>());
 
-			foreach(var card in deck.cards) {
-				var assertionMessage = $"Exception thrown while getting the display string of the {card.rank} of {card.suit}";
+            Assert.Multiple(() =>
+            {
+                Assert.That(
+                    () =>
+                    {
+                        deck.shuffle();
+                    },
+                    Throws.Nothing,
+                    "Shuffle throws exception"
+                );
+                Assert.That(
+                    () =>
+                    {
+                        deck.draw();
+                    },
+                    Throws.Nothing,
+                    "Draw throws exception"
+                );
+                Assert.That(
+                    () =>
+                    {
+                        deck.reset();
+                    },
+                    Throws.Nothing,
+                    "Reset throws exception"
+                );
+                Assert.That(deck.draw(), Is.EqualTo(null), "Drawn card is not null");
+            });
+        }
 
-				Assert.Multiple(() => {
-					Assert.That(() => { card.getDisplayString(displayTenAsT: false); }, Throws.Nothing, assertionMessage);
-					Assert.That(() => { card.getDisplayString(displayTenAsT: true); }, Throws.Nothing, assertionMessage);
-				});
-			}
-		}
+        /// <summary>
+        /// Test whether creating a deck with only one card has valid results.
+        /// </summary>
+        [Test]
+        public void deckWithOneCardIsValid()
+        {
+            var cards = new List<Card>() { new Card(Card.Rank.Ace, Card.Suit.Spades) };
+            var deck = Deck.get(cards);
 
-		/// <summary>
-		/// Test whether creating an empty deck has valid results.
-		/// </summary>
-		[Test]
-		public void emptyDeckIsValid() {
-			var deck = Deck.get(new List<Card>());
-
-			Assert.Multiple(() => {
-				Assert.That(() => { deck.shuffle(); }, Throws.Nothing, "Shuffle throws exception");
-				Assert.That(() => { deck.draw(); }, Throws.Nothing, "Draw throws exception");
-				Assert.That(() => { deck.reset(); }, Throws.Nothing, "Reset throws exception");
-				Assert.That(deck.draw(), Is.EqualTo(null), "Drawn card is not null");
-			});
-		}
-
-		/// <summary>
-		/// Test whether creating a deck with only one card has valid results.
-		/// </summary>
-		[Test]
-		public void deckWithOneCardIsValid() {
-			var cards = new List<Card>() { new Card(Card.Rank.Ace, Card.Suit.Spades) };
-			var deck = Deck.get(cards);
-
-			Assert.Multiple(() => {
-				Assert.That(() => { deck.shuffle(); }, Throws.Nothing, "Shuffle throws exception");
-				Assert.That(() => { deck.draw(); }, Throws.Nothing, "Draw throws exception");
-				Assert.That(() => { deck.reset(); }, Throws.Nothing, "Reset throws exception");
-				Assert.That(deck.draw(), Is.EqualTo(cards.First()), "Drawn card is not the card in the deck");
-			});
-		}
-	}
+            Assert.Multiple(() =>
+            {
+                Assert.That(
+                    () =>
+                    {
+                        deck.shuffle();
+                    },
+                    Throws.Nothing,
+                    "Shuffle throws exception"
+                );
+                Assert.That(
+                    () =>
+                    {
+                        deck.draw();
+                    },
+                    Throws.Nothing,
+                    "Draw throws exception"
+                );
+                Assert.That(
+                    () =>
+                    {
+                        deck.reset();
+                    },
+                    Throws.Nothing,
+                    "Reset throws exception"
+                );
+                Assert.That(
+                    deck.draw(),
+                    Is.EqualTo(cards.First()),
+                    "Drawn card is not the card in the deck"
+                );
+            });
+        }
+    }
 }
