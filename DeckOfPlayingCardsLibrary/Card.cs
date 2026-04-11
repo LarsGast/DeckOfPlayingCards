@@ -60,17 +60,6 @@ namespace DeckOfPlayingCardsLibrary
         }
 
         /// <summary>
-        /// Checks whether this card is equal to another card.
-        /// Two cards are equal if they have the same rank and the same suit.
-        /// </summary>
-        /// <param name="other">The other card to compare.</param>
-        /// <returns>true if the cards are equal; otherwise, false.</returns>
-        public bool Equals(Card other)
-        {
-            return this.Rank == other.Rank && this.Suit == other.Suit;
-        }
-
-        /// <summary>
         /// Gets the display string for the card, representing both rank and suit.
         /// This is a two-character string (except for a card with rank 10, if displayTenAsT is false).
         /// </summary>
