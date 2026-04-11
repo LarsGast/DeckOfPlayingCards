@@ -77,12 +77,12 @@
             _ = deck.Draw();
             deck.Reset();
 
-            var firstAfterRest = deck.Draw()!;
+            var firstAfterReset = deck.Draw()!;
 
             // Assert
             Assert.That(
                 Key(firstBeforeReset),
-                Is.EqualTo(Key(firstAfterRest)),
+                Is.EqualTo(Key(firstAfterReset)),
                 "Reset should set the draw position back to the top (without changing card order)."
             );
         }
