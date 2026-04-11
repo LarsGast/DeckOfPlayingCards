@@ -1,4 +1,4 @@
-using DeckOfPlayingCards;
+using DeckOfPlayingCardsLibrary;
 
 namespace DeckOfPlayingCardsDemo
 {
@@ -9,7 +9,7 @@ namespace DeckOfPlayingCardsDemo
             // Initialize some variables.
             Deck? deck = null;
             Card? card = null;
-            bool shuffled = false;
+            var shuffled = false;
             var drawnCards = new List<Card>();
 
             while (true)
@@ -18,13 +18,13 @@ namespace DeckOfPlayingCardsDemo
                 Console.Clear();
 
                 // Show the deck, shuffled, and card status to the user.
-                Program.showStatus(deck, shuffled, card);
+                Program.ShowStatus(deck, shuffled, card);
 
                 // Add a white space
                 Console.WriteLine();
 
                 // Show the options that the user has to the user.
-                Program.showOptions();
+                Program.ShowOptions();
 
                 // Get the input of the user based on the options.
                 var input = Console.ReadLine();
@@ -33,7 +33,7 @@ namespace DeckOfPlayingCardsDemo
                 // If so, de-capitalize it.
                 if (input == null)
                 {
-                    Program.showMessage("No input received");
+                    Program.ShowMessage("No input received");
                     continue;
                 }
                 else
@@ -48,7 +48,7 @@ namespace DeckOfPlayingCardsDemo
                 }
 
                 // Handle the request based on the input of the user.
-                Program.handleRequest(ref deck, ref card, ref shuffled, ref drawnCards, input);
+                Program.HandleRequest(ref deck, ref card, ref shuffled, ref drawnCards, input);
             }
         }
 
@@ -60,7 +60,7 @@ namespace DeckOfPlayingCardsDemo
         /// <param name="deck">The deck. Can be null.</param>
         /// <param name="shuffled">Whether the deck has been shuffled.</param>
         /// <param name="lastDrawnCard">The last drawn card from the deck. Can be null.</param>
-        private static void showStatus(Deck? deck, bool shuffled, Card? lastDrawnCard)
+        private static void ShowStatus(Deck? deck, bool shuffled, Card? lastDrawnCard)
         {
             if (deck == null)
             {
@@ -81,7 +81,7 @@ namespace DeckOfPlayingCardsDemo
                 if (lastDrawnCard != null)
                 {
                     Console.WriteLine(
-                        $"Last card drawn: {lastDrawnCard.getDisplayString(displayTenAsT: true)}"
+                        $"Last card drawn: {lastDrawnCard.GetDisplayString(displayTenAsT: true)}"
                     );
                 }
             }
@@ -90,8 +90,7 @@ namespace DeckOfPlayingCardsDemo
         /// <summary>
         /// Shows the user the options they have to continue.
         /// </summary>
-        private static void showOptions()
-        {
+        private static void ShowOptions() {
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("G: Get a new (unsorted) deck");
             Console.WriteLine("S: Shuffle the deck");
@@ -105,12 +104,12 @@ namespace DeckOfPlayingCardsDemo
         /// Shows a message to the user and halts the program until user interferance.
         /// </summary>
         /// <param name="message">The message to show to the user before continuing.</param>
-        private static void showMessage(string message = "Error")
+        private static void ShowMessage(string message = "Error")
         {
             Console.Clear();
             Console.WriteLine(message);
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            _ = Console.ReadKey();
         }
 
         #endregion
@@ -125,7 +124,7 @@ namespace DeckOfPlayingCardsDemo
         /// <param name="shuffled">Whether the deck has been shuffled.</param>
         /// <param name="drawnCards">The already drawn cards.</param>
         /// <param name="input">The user input.</param>
-        private static void handleRequest(
+        private static void HandleRequest(
             ref Deck? deck,
             ref Card? lastDrawnCard,
             ref bool shuffled,
@@ -136,22 +135,22 @@ namespace DeckOfPlayingCardsDemo
             switch (input)
             {
                 case "g":
-                    Program.getDeck(ref deck, ref lastDrawnCard, ref shuffled, ref drawnCards);
+                    Program.GetDeck(ref deck, ref lastDrawnCard, ref shuffled, ref drawnCards);
                     break;
                 case "s":
-                    Program.shuffleDeck(deck, ref shuffled);
+                    Program.ShuffleDeck(deck, ref shuffled);
                     break;
                 case "d":
-                    Program.drawCard(deck, drawnCards, ref lastDrawnCard);
+                    Program.DrawCard(deck, drawnCards, ref lastDrawnCard);
                     break;
                 case "r":
-                    Program.resetDeck(deck, ref lastDrawnCard, ref drawnCards);
+                    Program.ResetDeck(deck, ref lastDrawnCard, ref drawnCards);
                     break;
                 case "h":
-                    Program.showHistory(drawnCards);
+                    Program.ShowHistory(drawnCards);
                     break;
                 default:
-                    Program.showMessage("Unknown input. Try again.");
+                    Program.ShowMessage("Unknown input. Try again.");
                     break;
             }
         }
@@ -162,14 +161,14 @@ namespace DeckOfPlayingCardsDemo
         /// <param name="deck">The deck. Can be null.</param>
         /// <param name="shuffled">Whether the deck has been shuffled.</param>
         /// <param name="drawnCards">The already drawn cards.</param>
-        private static void getDeck(
+        private static void GetDeck(
             ref Deck? deck,
             ref Card? lastDrawnCard,
             ref bool shuffled,
             ref List<Card> drawnCards
         )
         {
-            deck = Deck.get();
+            deck = Deck.Get();
             lastDrawnCard = null;
             shuffled = false;
             drawnCards = new List<Card>();
@@ -180,15 +179,15 @@ namespace DeckOfPlayingCardsDemo
         /// </summary>
         /// <param name="deck">The deck. Can be null.</param>
         /// <param name="shuffled">Whether the deck has been shuffled.</param>
-        private static void shuffleDeck(Deck? deck, ref bool shuffled)
+        private static void ShuffleDeck(Deck? deck, ref bool shuffled)
         {
             if (deck == null)
             {
-                Program.showMessage("Deck not found");
+                Program.ShowMessage("Deck not found");
                 return;
             }
 
-            deck.shuffle(includeDrawnCards: false);
+            deck.Shuffle(includeDrawnCards: false);
             shuffled = true;
         }
 
@@ -198,15 +197,15 @@ namespace DeckOfPlayingCardsDemo
         /// <param name="deck">The deck. Can be null.</param>
         /// <param name="drawnCards">The already drawn cards.</param>
         /// <param name="lastDrawnCard">The last drawn card. Can be null.</param>
-        private static void drawCard(Deck? deck, List<Card> drawnCards, ref Card? lastDrawnCard)
+        private static void DrawCard(Deck? deck, List<Card> drawnCards, ref Card? lastDrawnCard)
         {
             if (deck == null)
             {
-                Program.showMessage("Deck not found");
+                Program.ShowMessage("Deck not found");
                 return;
             }
 
-            lastDrawnCard = deck.draw();
+            lastDrawnCard = deck.Draw();
             if (lastDrawnCard != null)
             {
                 drawnCards.Add(lastDrawnCard);
@@ -219,7 +218,7 @@ namespace DeckOfPlayingCardsDemo
         /// <param name="deck">The deck. Can be null.</param>
         /// <param name="lastDrawnCard">The last drawn card. Can be null.</param>
         /// <param name="drawnCards">The already drawn cards.</param>
-        private static void resetDeck(
+        private static void ResetDeck(
             Deck? deck,
             ref Card? lastDrawnCard,
             ref List<Card> drawnCards
@@ -227,26 +226,26 @@ namespace DeckOfPlayingCardsDemo
         {
             if (deck == null)
             {
-                Program.showMessage("Deck not found");
+                Program.ShowMessage("Deck not found");
                 return;
             }
 
-            deck.reset();
+            deck.Reset();
             lastDrawnCard = null;
             drawnCards = new List<Card>();
 
-            Program.showMessage("Deck will be reset");
+            Program.ShowMessage("Deck will be reset");
         }
 
         /// <summary>
         /// Shows all the cards drawn since last reset.
         /// </summary>
         /// <param name="drawnCards">The already drawn cards.</param>
-        private static void showHistory(List<Card> drawnCards)
+        private static void ShowHistory(List<Card> drawnCards)
         {
             if (drawnCards.Count == 0)
             {
-                Program.showMessage("No cards drawn");
+                Program.ShowMessage("No cards drawn");
                 return;
             }
 
@@ -254,11 +253,11 @@ namespace DeckOfPlayingCardsDemo
             Console.WriteLine("History:");
             foreach (var drawnCard in drawnCards)
             {
-                Console.WriteLine(drawnCard.getDisplayString(displayTenAsT: true));
+                Console.WriteLine(drawnCard.GetDisplayString(displayTenAsT: true));
             }
             Console.WriteLine();
             Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            _ = Console.ReadKey();
         }
 
         #endregion

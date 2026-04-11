@@ -1,10 +1,5 @@
-namespace DeckOfPlayingCards
+namespace DeckOfPlayingCardsLibrary
 {
-    /// <summary>
-    /// Represents a playing card with a rank and suit.
-    /// </summary>
-    public class Card
-    {
         /// <summary>
         /// Enumeration of card ranks, ranging from Two to Ace.
         /// </summary>
@@ -35,18 +30,23 @@ namespace DeckOfPlayingCards
             Diamonds,
             Clubs,
         }
+    /// <summary>
+    /// Represents a playing card with a rank and suit.
+    /// </summary>
+    public class Card
+    {
 
         /// <summary>
         /// Gets or sets the rank of the card.
         /// Ranks range from "Two" to "Ten," and "Jack" to "Ace."
         /// </summary>
-        public Rank rank { get; private set; }
+        public Rank Rank { get; private set; }
 
         /// <summary>
         /// Gets or sets the suit of the card.
         /// Suits include "Spades," "Hearts," "Diamonds," and "Clubs."
         /// </summary>
-        public Suit suit { get; private set; }
+        public Suit Suit { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the Card class with the specified rank and suit.
@@ -55,8 +55,8 @@ namespace DeckOfPlayingCards
         /// <param name="suit">The suit of the card.</param>
         public Card(Rank rank, Suit suit)
         {
-            this.rank = rank;
-            this.suit = suit;
+            this.Rank = rank;
+            this.Suit = suit;
         }
 
         /// <summary>
@@ -65,9 +65,8 @@ namespace DeckOfPlayingCards
         /// </summary>
         /// <param name="other">The other card to compare.</param>
         /// <returns>true if the cards are equal; otherwise, false.</returns>
-        public bool equals(Card other)
-        {
-            return this.rank == other.rank && this.suit == other.suit;
+        public bool Equals(Card other) {
+            return this.Rank == other.Rank && this.Suit == other.Suit;
         }
 
         /// <summary>
@@ -76,9 +75,8 @@ namespace DeckOfPlayingCards
         /// </summary>
         /// <param name="displayTenAsT">Whether the rank "Ten" should be displayed as "T". Default is false (displays "10").</param>
         /// <returns>A string representing the card, e.g., "2♠" for the 2 of Spades.</returns>
-        public string getDisplayString(bool displayTenAsT = false)
-        {
-            return this.rank.getDisplayString(displayTenAsT) + this.suit.getDisplayString();
+        public string GetDisplayString(bool displayTenAsT = false) {
+            return this.Rank.GetDisplayString(displayTenAsT) + this.Suit.GetDisplayString();
         }
     }
 }
