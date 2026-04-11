@@ -1,41 +1,41 @@
 namespace DeckOfPlayingCardsLibrary
 {
-        /// <summary>
-        /// Enumeration of card ranks, ranging from Two to Ace.
-        /// </summary>
-        public enum Rank
-        {
-            Two = 2,
-            Three,
-            Four,
-            Five,
-            Six,
-            Seven,
-            Eight,
-            Nine,
-            Ten,
-            Jack,
-            Queen,
-            King,
-            Ace,
-        }
+    /// <summary>
+    /// Enumeration of card ranks, ranging from Two to Ace.
+    /// </summary>
+    public enum Rank
+    {
+        Two = 2,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace,
+    }
 
-        /// <summary>
-        /// Enumeration of card suits, including Spades, Hearts, Diamonds, and Clubs.
-        /// </summary>
-        public enum Suit
-        {
-            Spades,
-            Hearts,
-            Diamonds,
-            Clubs,
-        }
+    /// <summary>
+    /// Enumeration of card suits, including Spades, Hearts, Diamonds, and Clubs.
+    /// </summary>
+    public enum Suit
+    {
+        Spades,
+        Hearts,
+        Diamonds,
+        Clubs,
+    }
+
     /// <summary>
     /// Represents a playing card with a rank and suit.
     /// </summary>
     public class Card
     {
-
         /// <summary>
         /// Gets or sets the rank of the card.
         /// Ranks range from "Two" to "Ten," and "Jack" to "Ace."
@@ -65,7 +65,8 @@ namespace DeckOfPlayingCardsLibrary
         /// </summary>
         /// <param name="other">The other card to compare.</param>
         /// <returns>true if the cards are equal; otherwise, false.</returns>
-        public bool Equals(Card other) {
+        public bool Equals(Card other)
+        {
             return this.Rank == other.Rank && this.Suit == other.Suit;
         }
 
@@ -75,7 +76,8 @@ namespace DeckOfPlayingCardsLibrary
         /// </summary>
         /// <param name="displayTenAsT">Whether the rank "Ten" should be displayed as "T". Default is false (displays "10").</param>
         /// <returns>A string representing the card, e.g., "2♠" for the 2 of Spades.</returns>
-        public string GetDisplayString(bool displayTenAsT = false) {
+        public string GetDisplayString(bool displayTenAsT = false)
+        {
             return this.Rank.GetDisplayString(displayTenAsT) + this.Suit.GetDisplayString();
         }
     }

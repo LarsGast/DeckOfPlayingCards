@@ -44,11 +44,12 @@ namespace DeckOfPlayingCardsLibrary
         /// <returns>A one character Unicode string that represents the value of the suit.</returns>
         public static string? GetDisplayString(this Suit suit)
         {
-            return suit switch {
-                Suit.Hearts => "\u2665",// Heart symbol
-                Suit.Spades => "\u2660",// Spade symbol
-                Suit.Diamonds => "\u2666",// Diamond symbol
-                Suit.Clubs => "\u2663",// Club symbol
+            return suit switch
+            {
+                Suit.Hearts => "\u2665", // Heart symbol
+                Suit.Spades => "\u2660", // Spade symbol
+                Suit.Diamonds => "\u2666", // Diamond symbol
+                Suit.Clubs => "\u2663", // Club symbol
                 _ => throw new ArgumentException("Undefined suit value"),
             };
         }

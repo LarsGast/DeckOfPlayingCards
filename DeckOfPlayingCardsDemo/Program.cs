@@ -90,7 +90,8 @@ namespace DeckOfPlayingCardsDemo
         /// <summary>
         /// Shows the user the options they have to continue.
         /// </summary>
-        private static void ShowOptions() {
+        private static void ShowOptions()
+        {
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("G: Get a new (unsorted) deck");
             Console.WriteLine("S: Shuffle the deck");

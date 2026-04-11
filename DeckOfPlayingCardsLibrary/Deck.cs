@@ -39,7 +39,8 @@ namespace DeckOfPlayingCardsLibrary
         /// </summary>
         /// <param name="cards">An optional list of cards to initialize the deck. If not provided, it results in a standard 52-card deck.</param>
         /// <returns>A new deck of cards. If the "cards" parameter is not provided, it will be a standard deck of 52 cards.</returns>
-        public static Deck Get(List<Card>? cards = null) {
+        public static Deck Get(List<Card>? cards = null)
+        {
             return cards != null ? new Deck(cards) : Deck.GetStandardDeck();
         }
 

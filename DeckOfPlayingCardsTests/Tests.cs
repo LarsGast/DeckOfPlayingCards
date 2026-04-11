@@ -106,7 +106,8 @@ namespace DeckOfPlayingCardsTests
             for (var i = 0; i < numberOfCards / 2; i++)
             {
                 Assert.That(
-                    firstTenCards[i], Is.EqualTo(deck.Draw()),
+                    firstTenCards[i],
+                    Is.EqualTo(deck.Draw()),
                     $"One of the first {numberOfCards / 2} cards is not the same"
                 );
             }
@@ -176,11 +177,7 @@ namespace DeckOfPlayingCardsTests
 
             Assert.Multiple(() =>
             {
-                Assert.That(
-                    () => deck.Shuffle(),
-                    Throws.Nothing,
-                    "Shuffle throws exception"
-                );
+                Assert.That(() => deck.Shuffle(), Throws.Nothing, "Shuffle throws exception");
                 Assert.That(
                     () =>
                     {
@@ -189,11 +186,7 @@ namespace DeckOfPlayingCardsTests
                     Throws.Nothing,
                     "Draw throws exception"
                 );
-                Assert.That(
-                    () => deck.Reset(),
-                    Throws.Nothing,
-                    "Reset throws exception"
-                );
+                Assert.That(() => deck.Reset(), Throws.Nothing, "Reset throws exception");
                 Assert.That(deck.Draw(), Is.EqualTo(null), "Drawn card is not null");
             });
         }
@@ -209,11 +202,7 @@ namespace DeckOfPlayingCardsTests
 
             Assert.Multiple(() =>
             {
-                Assert.That(
-                    () => deck.Shuffle(),
-                    Throws.Nothing,
-                    "Shuffle throws exception"
-                );
+                Assert.That(() => deck.Shuffle(), Throws.Nothing, "Shuffle throws exception");
                 Assert.That(
                     () =>
                     {
@@ -222,11 +211,7 @@ namespace DeckOfPlayingCardsTests
                     Throws.Nothing,
                     "Draw throws exception"
                 );
-                Assert.That(
-                    () => deck.Reset(),
-                    Throws.Nothing,
-                    "Reset throws exception"
-                );
+                Assert.That(() => deck.Reset(), Throws.Nothing, "Reset throws exception");
                 Assert.That(
                     deck.Draw(),
                     Is.EqualTo(cards.First()),
