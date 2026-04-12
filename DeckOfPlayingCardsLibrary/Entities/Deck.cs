@@ -85,7 +85,7 @@ namespace DeckOfPlayingCardsLibrary.Entities
             // Initialize random if not done already.
             random ??= new Random();
 
-            // Shuflle ALL cards back into the deck, and start drawing from the top again.
+            // Shuffle ALL cards back into the deck, and start drawing from the top again.
             if (includeDrawnCards)
             {
                 this._cards = this._cards.OrderBy(card => random.Next()).ToList();
