@@ -4,17 +4,6 @@ using DeckOfPlayingCardsLibrary.Extensions;
 namespace DeckOfPlayingCardsLibrary
 {
     /// <summary>
-    /// Enumeration of card suits, including Spades, Hearts, Diamonds, and Clubs.
-    /// </summary>
-    public enum Suit
-    {
-        Spades,
-        Hearts,
-        Diamonds,
-        Clubs,
-    }
-
-    /// <summary>
     /// Represents a playing card with a rank and suit.
     /// </summary>
     public class Card
@@ -29,14 +18,14 @@ namespace DeckOfPlayingCardsLibrary
         /// Gets or sets the suit of the card.
         /// Suits include "Spades," "Hearts," "Diamonds," and "Clubs."
         /// </summary>
-        public Suit Suit { get; private set; }
+        public CardSuit Suit { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the Card class with the specified rank and suit.
         /// </summary>
         /// <param name="rank">The rank of the card.</param>
         /// <param name="suit">The suit of the card.</param>
-        public Card(CardRank rank, Suit suit)
+        public Card(CardRank rank, CardSuit suit)
         {
             this.Rank = rank;
             this.Suit = suit;

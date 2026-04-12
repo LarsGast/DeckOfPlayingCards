@@ -1,6 +1,4 @@
-﻿using DeckOfPlayingCardsLibrary.Enums;
-
-namespace DeckOfPlayingCardsTests.Unit
+﻿namespace DeckOfPlayingCardsTests.Unit
 {
     [TestFixture]
     public class DeckTests
@@ -27,9 +25,9 @@ namespace DeckOfPlayingCardsTests.Unit
             // Arrange
             var customCards = new List<Card>
             {
-                new(CardRank.Ace, Suit.Hearts),
-                new(CardRank.King, Suit.Spades),
-                new(CardRank.Queen, Suit.Diamonds),
+                new(CardRank.Ace, CardSuit.Hearts),
+                new(CardRank.King, CardSuit.Spades),
+                new(CardRank.Queen, CardSuit.Diamonds),
             };
 
             // Act
@@ -241,7 +239,7 @@ namespace DeckOfPlayingCardsTests.Unit
         /// Create a unique key for a card based on its Rank and Suit, for easy comparison and uniqueness checks.
         /// </summary>
         /// <param name="card"></param>
-        /// <returns>"2-0" for 2 of spades, "13-2" for king of diamonds, etc.</returns>
+        /// <returns>"0-0" for 2 of spades, "11-2" for king of diamonds, etc.</returns>
         private static string Key(Card card)
         {
             return $"{(int)card.Rank}-{(int)card.Suit}";

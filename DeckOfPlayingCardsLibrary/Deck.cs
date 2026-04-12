@@ -55,7 +55,7 @@ namespace DeckOfPlayingCardsLibrary
             var cards = new List<Card>();
 
             // Generate cards for each suit and rank combination.
-            foreach (var suit in Enum.GetValues<Suit>())
+            foreach (var suit in Enum.GetValues<CardSuit>())
             {
                 foreach (var rank in Enum.GetValues<CardRank>())
                 {
