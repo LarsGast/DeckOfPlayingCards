@@ -94,8 +94,8 @@ namespace DeckOfPlayingCardsLibrary.Entities
             }
 
             // Determine which cards to shuffle and which cards to leave in place.
-            var drawnCards = this._cards.Where(card => this._cards.IndexOf(card) <= this._index);
-            var nonDrawnCards = this._cards.Where(card => this._cards.IndexOf(card) > this._index);
+            var drawnCards = this._cards.Take(this._index);
+            var nonDrawnCards = this._cards.Skip(this._index);
 
             // Shuffle the non-drawn cards.
             var shuffledCards = nonDrawnCards.OrderBy(card => random.Next()).ToList();
