@@ -16,7 +16,7 @@ With this library, you can create a standard deck of 52 cards, shuffle it, and d
 
 ## Features
 
-This library includes the following classes:
+This library includes the following types:
 * Entities:
   * Card.cs
   * Deck.cs
@@ -59,16 +59,16 @@ Getting a deck, shuffling it, drawing cards, and resetting it is pretty straight
 using DeckOfCardsLibrary;
 
 // Get a standard unshuffled deck.
-var deck = Deck.get();
+var deck = Deck.Get();
 
 // Shuffle the deck.
-deck.shuffle();
+deck.Shuffle();
 
 // Draw some cards.
-var firstCard = deck.draw()!.Value;
-var secondCard = deck.draw()!.Value;
+var firstCard = deck.Draw()!.Value;
+var secondCard = deck.Draw()!.Value;
 
-// Keep in mind that deck.draw() returns null if all the cards in the deck have already been drawn.
+// Keep in mind that deck.Draw() returns null if all the cards in the deck have already been drawn.
 // In this case I have only drawn two cards, so I can safely say the method does not return null.
 
 // Let's see what cards we got!
@@ -76,11 +76,11 @@ Console.WriteLine(firstCard);
 Console.WriteLine(secondCard);
 
 // That was a good hand! Let's reset the deck so I get the same cards again.
-deck.reset();
+deck.Reset();
 
 // Just kidding! I play fair.
-deck = Deck.get();
-deck.shuffle(random: new Random(103413));
+deck = Deck.Get();
+deck.Shuffle(random: new Random(103413));
 ```
 
 The GitHub repo also includes a console app which you can play around with.
