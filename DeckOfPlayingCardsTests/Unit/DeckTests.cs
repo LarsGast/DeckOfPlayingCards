@@ -91,10 +91,26 @@
         }
 
         [Test]
-        public void Shuffle_AfterShuffleWithStandardDeck_PreservesAllCards()
+        public void Shuffle_WhenIncludingDrawnCards_PreservesAllCards()
         {
             // Arrange
-            var deck = Deck.Get();
+            var twelfeJacks = new List<Card>
+            {
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+            };
+
+            var deck = Deck.Get(twelfeJacks);
             var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
 
             // Act
