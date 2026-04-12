@@ -146,6 +146,27 @@
         }
 
         [Test]
+        public void Shuffle_WhenIncludingDrawnCards_MovesAllCards()
+        {
+            // Arrange
+            var deck = Deck.Get();
+            var unshuffled = deck.Cards.ToList();
+
+            // Seed 1 should give every card a new position.
+            var random = new Random(1);
+
+            // Act
+            deck.Shuffle(true, random);
+
+            // Assert
+            Assert.That(
+                unshuffled.Zip(deck.Cards).All(pair => pair.First != pair.Second),
+                Is.True,
+                "All cards should have been moved by shuffle with given seed."
+            );
+        }
+
+        [Test]
         public void Shuffle_WhenIncludingDrawnCards_ResetsDrawPosition()
         {
             // Arrange
@@ -203,6 +224,27 @@
                 after,
                 Is.EqualTo(before),
                 "Shuffle must only permute the deck; it must not add/remove/duplicate cards."
+            );
+        }
+
+        [Test]
+        public void Shuffle_WhenExcludingDrawnCards_MovesAllCards()
+        {
+            // Arrange
+            var deck = Deck.Get();
+            var unshuffled = deck.Cards.ToList();
+
+            // Seed 1 should give every card a new position.
+            var random = new Random(1);
+
+            // Act
+            deck.Shuffle(false, random);
+
+            // Assert
+            Assert.That(
+                unshuffled.Zip(deck.Cards).All(pair => pair.First != pair.Second),
+                Is.True,
+                "All cards should have been moved by shuffle with given seed."
             );
         }
 
