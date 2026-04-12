@@ -14,6 +14,9 @@ namespace DeckOfPlayingCardsLibrary.Entities
         /// <summary>
         /// Immutable list of all the cards in this deck, possibly shuffled.
         /// </summary>
+        /// <remarks>
+        /// This includes both drawn and non-drawn cards, in the same order as they are in the deck.
+        /// </remarks>
         public ReadOnlyCollection<Card> Cards => this._cards.AsReadOnly();
 
         /// <summary>
