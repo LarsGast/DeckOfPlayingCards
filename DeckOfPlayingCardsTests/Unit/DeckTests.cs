@@ -1,4 +1,6 @@
-﻿namespace DeckOfPlayingCardsTests.Unit
+﻿using DeckOfPlayingCardsLibrary.Enums;
+
+namespace DeckOfPlayingCardsTests.Unit
 {
     [TestFixture]
     public class DeckTests
@@ -25,9 +27,9 @@
             // Arrange
             var customCards = new List<Card>
             {
-                new(Rank.Ace, Suit.Hearts),
-                new(Rank.King, Suit.Spades),
-                new(Rank.Queen, Suit.Diamonds),
+                new(CardRank.Ace, Suit.Hearts),
+                new(CardRank.King, Suit.Spades),
+                new(CardRank.Queen, Suit.Diamonds),
             };
 
             // Act

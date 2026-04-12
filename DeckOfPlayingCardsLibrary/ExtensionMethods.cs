@@ -7,36 +7,6 @@ namespace DeckOfPlayingCardsLibrary
     public static class ExtensionMethods
     {
         /// <summary>
-        /// Extension method for `Card.Rank`.
-        /// Gets the value of the rank as a string for displaying.
-        /// </summary>
-        /// <param name="rank">The card rank.</param>
-        /// <param name="displayTenAsT">Whether the rank "Ten" should be displayed as "T". Default is false (displays "10").</param>
-        /// <returns>A one or two character string that represents the value of the rank.</returns>
-        public static string GetDisplayString(this Rank rank, bool displayTenAsT = false)
-        {
-            switch (rank)
-            {
-                case Rank.Ten:
-                    if (displayTenAsT)
-                    {
-                        return "T";
-                    }
-                    break;
-                case Rank.Jack:
-                    return "J";
-                case Rank.Queen:
-                    return "Q";
-                case Rank.King:
-                    return "K";
-                case Rank.Ace:
-                    return "A";
-            }
-
-            return ((int)rank).ToString();
-        }
-
-        /// <summary>
         /// Extension method for `Card.Suit`.
         /// Gets the unicode value of the suit as a string for displaying.
         /// </summary>

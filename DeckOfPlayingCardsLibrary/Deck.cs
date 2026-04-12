@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DeckOfPlayingCardsLibrary.Enums;
 
 namespace DeckOfPlayingCardsLibrary
 {
@@ -56,7 +57,7 @@ namespace DeckOfPlayingCardsLibrary
             // Generate cards for each suit and rank combination.
             foreach (var suit in Enum.GetValues<Suit>())
             {
-                foreach (var rank in Enum.GetValues<Rank>())
+                foreach (var rank in Enum.GetValues<CardRank>())
                 {
                     cards.Add(new Card(rank, suit));
                 }

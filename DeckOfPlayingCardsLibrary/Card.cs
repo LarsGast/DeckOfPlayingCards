@@ -1,25 +1,8 @@
+using DeckOfPlayingCardsLibrary.Enums;
+using DeckOfPlayingCardsLibrary.Extensions;
+
 namespace DeckOfPlayingCardsLibrary
 {
-    /// <summary>
-    /// Enumeration of card ranks, ranging from Two to Ace.
-    /// </summary>
-    public enum Rank
-    {
-        Two = 2,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight,
-        Nine,
-        Ten,
-        Jack,
-        Queen,
-        King,
-        Ace,
-    }
-
     /// <summary>
     /// Enumeration of card suits, including Spades, Hearts, Diamonds, and Clubs.
     /// </summary>
@@ -40,7 +23,7 @@ namespace DeckOfPlayingCardsLibrary
         /// Gets or sets the rank of the card.
         /// Ranks range from "Two" to "Ten," and "Jack" to "Ace."
         /// </summary>
-        public Rank Rank { get; private set; }
+        public CardRank Rank { get; private set; }
 
         /// <summary>
         /// Gets or sets the suit of the card.
@@ -53,7 +36,7 @@ namespace DeckOfPlayingCardsLibrary
         /// </summary>
         /// <param name="rank">The rank of the card.</param>
         /// <param name="suit">The suit of the card.</param>
-        public Card(Rank rank, Suit suit)
+        public Card(CardRank rank, Suit suit)
         {
             this.Rank = rank;
             this.Suit = suit;
