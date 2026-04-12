@@ -101,7 +101,7 @@ namespace DeckOfPlayingCardsLibrary.Entities
             var shuffledCards = nonDrawnCards.OrderBy(card => random.Next()).ToList();
 
             // Add the already drawn cards to the front of the deck in order.
-            this._cards = drawnCards.Union(shuffledCards).ToList();
+            this._cards = drawnCards.Concat(shuffledCards).ToList();
         }
 
         /// <summary>

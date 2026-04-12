@@ -91,26 +91,6 @@
         }
 
         [Test]
-        public void Shuffle_AfterShuffle_PreservesAllCards()
-        {
-            // Arrange
-            var deck = Deck.Get();
-            var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
-
-            // Act
-            deck.Shuffle(random: new Random(12345));
-
-            var after = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
-
-            // Assert
-            Assert.That(
-                after,
-                Is.EqualTo(before),
-                "Shuffle must only permute the deck; it must not add/remove/duplicate cards."
-            );
-        }
-
-        [Test]
         public void Shuffle_WhenShufflingWithDifferentSeeds_ProducesDifferentOrders()
         {
             // Arrange
@@ -126,6 +106,42 @@
                 firstDeck.Cards,
                 Is.Not.EqualTo(secondDeck.Cards),
                 "Shuffling with different seeds should produce different card orders."
+            );
+        }
+
+        [Test]
+        public void Shuffle_WhenIncludingDrawnCards_PreservesAllCards()
+        {
+            // Arrange
+            var twelveJacks = new List<Card>
+            {
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+            };
+
+            var deck = Deck.Get(twelveJacks);
+            var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
+
+            // Act
+            deck.Shuffle(random: new Random(12345));
+
+            var after = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
+
+            // Assert
+            Assert.That(
+                after,
+                Is.EqualTo(before),
+                "Shuffle must only permute the deck; it must not add/remove/duplicate cards."
             );
         }
 
@@ -151,6 +167,42 @@
                 drawnAfterShuffle,
                 Is.EqualTo(deck.Cards[0]),
                 "After Shuffle(includeDrawnCards: true), drawing should start from the top of the shuffled deck."
+            );
+        }
+
+        [Test]
+        public void Shuffle_WhenExcludingDrawnCards_PreservesAllCards()
+        {
+            // Arrange
+            var twelveJacks = new List<Card>
+            {
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Spades),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Hearts),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Diamonds),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+                new(CardRank.Jack, CardSuit.Clubs),
+            };
+
+            var deck = Deck.Get(twelveJacks);
+            var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
+
+            // Act
+            deck.Shuffle(false, new Random(12345));
+
+            var after = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
+
+            // Assert
+            Assert.That(
+                after,
+                Is.EqualTo(before),
+                "Shuffle must only permute the deck; it must not add/remove/duplicate cards."
             );
         }
 
