@@ -1,5 +1,4 @@
 using DeckOfPlayingCardsLibrary.Enums;
-using DeckOfPlayingCardsLibrary.Extensions;
 
 namespace DeckOfPlayingCardsLibrary
 {
@@ -29,17 +28,6 @@ namespace DeckOfPlayingCardsLibrary
         {
             this.Rank = rank;
             this.Suit = suit;
-        }
-
-        /// <summary>
-        /// Gets the display string for the card, representing both rank and suit.
-        /// This is a two-character string (except for a card with rank 10, if displayTenAsT is false).
-        /// </summary>
-        /// <param name="displayTenAsT">Whether the rank "Ten" should be displayed as "T". Default is false (displays "10").</param>
-        /// <returns>A string representing the card, e.g., "2♠" for the 2 of Spades.</returns>
-        public string GetDisplayString(bool displayTenAsT = false)
-        {
-            return this.Rank.GetDisplayString(displayTenAsT) + this.Suit.GetDisplayString();
         }
     }
 }
