@@ -1,5 +1,8 @@
 ﻿namespace DeckOfPlayingCardsTests.Unit
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Deck"/> class.
+    /// </summary>
     [TestFixture]
     public class DeckTests
     {
