@@ -82,7 +82,7 @@ namespace DeckOfPlayingCardsDemo
                 if (lastDrawnCard != null)
                 {
                     Console.WriteLine(
-                        $"Last card drawn: {Program.GetCardDisplayString(lastDrawnCard)}"
+                        $"Last card drawn: {Program.GetCardDisplayString(lastDrawnCard.Value)}"
                     );
                 }
             }
@@ -210,7 +210,7 @@ namespace DeckOfPlayingCardsDemo
             lastDrawnCard = deck.Draw();
             if (lastDrawnCard != null)
             {
-                drawnCards.Add(lastDrawnCard);
+                drawnCards.Add(lastDrawnCard.Value);
             }
         }
 
