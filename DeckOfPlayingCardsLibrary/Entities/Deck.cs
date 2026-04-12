@@ -57,20 +57,6 @@ namespace DeckOfPlayingCardsLibrary.Entities
         }
 
         /// <summary>
-        /// Creates and returns a standard 52-card deck.
-        /// </summary>
-        /// <returns>A new <see cref="Deck"/> object representing a standard, unshuffled deck of 52 playing cards.</returns>
-        private static Deck GetStandardDeck()
-        {
-            // Every combination of suit and rank corresponds to a unique card in a standard deck.
-            var suits = Enum.GetValues<CardSuit>();
-            var ranks = Enum.GetValues<CardRank>();
-            var cards = suits.SelectMany(suit => ranks.Select(rank => new Card(rank, suit)));
-
-            return new Deck(cards);
-        }
-
-        /// <summary>
         /// Shuffles the cards in the deck.
         /// </summary>
         /// <remarks>
@@ -138,6 +124,20 @@ namespace DeckOfPlayingCardsLibrary.Entities
         public void Reset()
         {
             this._index = 0;
+        }
+
+        /// <summary>
+        /// Creates and returns a standard 52-card deck.
+        /// </summary>
+        /// <returns>A new <see cref="Deck"/> object representing a standard, unshuffled deck of 52 playing cards.</returns>
+        private static Deck GetStandardDeck()
+        {
+            // Every combination of suit and rank corresponds to a unique card in a standard deck.
+            var suits = Enum.GetValues<CardSuit>();
+            var ranks = Enum.GetValues<CardRank>();
+            var cards = suits.SelectMany(suit => ranks.Select(rank => new Card(rank, suit)));
+
+            return new Deck(cards);
         }
     }
 }
