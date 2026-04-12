@@ -281,7 +281,7 @@ namespace DeckOfPlayingCardsDemo
         /// Gets the value of the rank as a string for displaying.
         /// </summary>
         /// <param name="rank">The card rank.</param>
-        /// <returns>A one or two character string that represents the value of the rank.</returns>
+        /// <returns>A one character string that represents the value of the rank.</returns>
         private static string GetRankDisplayString(CardRank rank)
         {
             return rank switch
