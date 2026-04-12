@@ -1,5 +1,8 @@
 ﻿namespace DeckOfPlayingCardsTests.Unit
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Deck"/> class.
+    /// </summary>
     [TestFixture]
     public class DeckTests
     {
@@ -15,7 +18,7 @@
                 Assert.That(deck.Cards, Has.Count.EqualTo(52));
 
                 // uniqueness by (Rank,Suit)
-                Assert.That(deck.Cards.Select(Key).Distinct().Count(), Is.EqualTo(52));
+                Assert.That(deck.Cards.Distinct().Count(), Is.EqualTo(52));
             });
         }
 
@@ -25,16 +28,16 @@
             // Arrange
             var customCards = new List<Card>
             {
-                new(Rank.Ace, Suit.Hearts),
-                new(Rank.King, Suit.Spades),
-                new(Rank.Queen, Suit.Diamonds),
+                new(CardRank.Ace, CardSuit.Hearts),
+                new(CardRank.King, CardSuit.Spades),
+                new(CardRank.Queen, CardSuit.Diamonds),
             };
 
             // Act
             var deck = Deck.Get(customCards);
 
             // Assert
-            Assert.That(deck.Cards.Select(Key), Is.EquivalentTo(customCards.Select(Key)));
+            Assert.That(deck.Cards, Is.EquivalentTo(customCards));
         }
 
         [Test]
@@ -57,7 +60,7 @@
             {
                 Assert.That(drawn.All(c => c is not null), Is.True, "Expected 52 non-null draws.");
                 Assert.That(
-                    drawn.Select(c => Key(c!)).Distinct().Count(),
+                    drawn.Distinct().Count(),
                     Is.EqualTo(52),
                     "All drawn cards should be unique."
                 );
@@ -70,19 +73,19 @@
         {
             // Arrange
             var deck = Deck.Get();
-            var firstBeforeReset = deck.Draw()!;
+            var firstBeforeReset = deck.Draw()!.Value;
 
             // Act
             _ = deck.Draw();
             _ = deck.Draw();
             deck.Reset();
 
-            var firstAfterReset = deck.Draw()!;
+            var firstAfterReset = deck.Draw()!.Value;
 
             // Assert
             Assert.That(
-                Key(firstBeforeReset),
-                Is.EqualTo(Key(firstAfterReset)),
+                firstBeforeReset,
+                Is.EqualTo(firstAfterReset),
                 "Reset should set the draw position back to the top (without changing card order)."
             );
         }
@@ -92,12 +95,12 @@
         {
             // Arrange
             var deck = Deck.Get();
-            var before = deck.Cards.Select(Key).OrderBy(x => x).ToList();
+            var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
 
             // Act
             deck.Shuffle(random: new Random(12345));
 
-            var after = deck.Cards.Select(Key).OrderBy(x => x).ToList();
+            var after = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
 
             // Assert
             Assert.That(
@@ -120,8 +123,8 @@
 
             // Assert
             Assert.That(
-                firstDeck.Cards.Select(Key).ToList(),
-                Is.Not.EqualTo(secondDeck.Cards.Select(Key).ToList()),
+                firstDeck.Cards,
+                Is.Not.EqualTo(secondDeck.Cards),
                 "Shuffling with different seeds should produce different card orders."
             );
         }
@@ -145,8 +148,8 @@
 
             // Assert
             Assert.That(
-                Key(drawnAfterShuffle!),
-                Is.EqualTo(Key(deck.Cards[0])),
+                drawnAfterShuffle,
+                Is.EqualTo(deck.Cards[0]),
                 "After Shuffle(includeDrawnCards: true), drawing should start from the top of the shuffled deck."
             );
         }
@@ -163,7 +166,7 @@
             var drawn = new List<Card>();
             for (var i = 0; i < n; i++)
             {
-                drawn.Add(deck.Draw()!);
+                drawn.Add(deck.Draw()!.Value);
             }
 
             // Act
@@ -175,10 +178,10 @@
             // Expect the first N drawn cards to still be the first N after reset
             for (var i = 0; i < n; i++)
             {
-                var now = deck.Draw()!;
+                var now = deck.Draw()!.Value;
                 Assert.That(
-                    Key(now),
-                    Is.EqualTo(Key(drawn[i])),
+                    now,
+                    Is.EqualTo(drawn[i]),
                     $"Card {i} in the drawn prefix should remain unchanged when includeDrawnCards=false."
                 );
             }
@@ -226,25 +229,11 @@
                     "Shuffling should not reset index."
                 );
                 Assert.That(
-                    nonDrawnAfter.Select(Key).ToList(),
-                    Is.Not.EqualTo(nonDrawnBefore.Select(Key).ToList()),
+                    nonDrawnAfter,
+                    Is.Not.EqualTo(nonDrawnBefore),
                     "Shuffling should produce different card order."
                 );
             });
         }
-
-        #region Helpers
-
-        /// <summary>
-        /// Create a unique key for a card based on its Rank and Suit, for easy comparison and uniqueness checks.
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns>"2-0" for 2 of spades, "13-2" for king of diamonds, etc.</returns>
-        private static string Key(Card card)
-        {
-            return $"{(int)card.Rank}-{(int)card.Suit}";
-        }
-
-        #endregion
     }
 }

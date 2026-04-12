@@ -1,4 +1,5 @@
-using DeckOfPlayingCardsLibrary;
+using DeckOfPlayingCardsLibrary.Entities;
+using DeckOfPlayingCardsLibrary.Enums;
 
 namespace DeckOfPlayingCardsDemo
 {
@@ -81,7 +82,7 @@ namespace DeckOfPlayingCardsDemo
                 if (lastDrawnCard != null)
                 {
                     Console.WriteLine(
-                        $"Last card drawn: {lastDrawnCard.GetDisplayString(displayTenAsT: true)}"
+                        $"Last card drawn: {Program.GetCardDisplayString(lastDrawnCard.Value)}"
                     );
                 }
             }
@@ -209,7 +210,7 @@ namespace DeckOfPlayingCardsDemo
             lastDrawnCard = deck.Draw();
             if (lastDrawnCard != null)
             {
-                drawnCards.Add(lastDrawnCard);
+                drawnCards.Add(lastDrawnCard.Value);
             }
         }
 
@@ -254,11 +255,69 @@ namespace DeckOfPlayingCardsDemo
             Console.WriteLine("History:");
             foreach (var drawnCard in drawnCards)
             {
-                Console.WriteLine(drawnCard.GetDisplayString(displayTenAsT: true));
+                Console.WriteLine(Program.GetCardDisplayString(drawnCard));
             }
             Console.WriteLine();
             Console.WriteLine("Press any key to continue");
             _ = Console.ReadKey();
+        }
+
+        #endregion
+
+        #region Display methods
+
+        /// <summary>
+        /// Gets the display string for the card, representing both rank and suit.
+        /// This is a two-character string.
+        /// </summary>
+        /// <returns>A string representing the card, e.g., "2♠" for the 2 of Spades.</returns>
+        private static string GetCardDisplayString(Card card)
+        {
+            return Program.GetRankDisplayString(card.Rank)
+                + Program.GetSuitDisplayString(card.Suit);
+        }
+
+        /// <summary>
+        /// Gets the value of the rank as a string for displaying.
+        /// </summary>
+        /// <param name="rank">The card rank.</param>
+        /// <returns>A one character string that represents the value of the rank.</returns>
+        private static string GetRankDisplayString(CardRank rank)
+        {
+            return rank switch
+            {
+                CardRank.Two => "2",
+                CardRank.Three => "3",
+                CardRank.Four => "4",
+                CardRank.Five => "5",
+                CardRank.Six => "6",
+                CardRank.Seven => "7",
+                CardRank.Eight => "8",
+                CardRank.Nine => "9",
+                CardRank.Ten => "T",
+                CardRank.Jack => "J",
+                CardRank.Queen => "Q",
+                CardRank.King => "K",
+                CardRank.Ace => "A",
+                _ => throw new ArgumentOutOfRangeException(nameof(rank), rank, null), // Should never happen
+            };
+        }
+
+        /// <summary>
+        /// Gets the unicode value of the suit as a string for displaying.
+        /// </summary>
+        /// <param name="suit">The card suit.</param>
+        /// <returns>A one character Unicode string that represents the value of the suit.</returns>
+        private static string GetSuitDisplayString(CardSuit suit)
+        {
+            return suit switch
+            {
+                CardSuit.Hearts => "\u2665", // Heart symbol
+                CardSuit.Spades => "\u2660", // Spade symbol
+                CardSuit.Diamonds => "\u2666", // Diamond symbol
+                CardSuit.Clubs => "\u2663", // Club symbol
+                _ => throw new ArgumentOutOfRangeException(nameof(suit), suit, null), // Should never happen
+            };
         }
 
         #endregion
