@@ -5,22 +5,35 @@
     <Nullable>enable</Nullable>
     <PackageId>DeckOfPlayingCards</PackageId>
     <Authors>Lars Hoekstra</Authors>
-    <Title>Deck of cards</Title>
+    <Title>Deck of playing cards</Title>
     <Company></Company>
     <Product />
-    <Description>Some simple code for playing with a standard deck of 52 cards.</Description>
-    <PackageProjectUrl>https://github.com/LarsGast/DeckOfCards</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/LarsGast/DeckOfCards</RepositoryUrl>
-    <Copyright>Copyright (c) Lars Hoekstra 2023</Copyright>
+    <Description>Some simple code for playing with a standard deck of 52 cards or your own custom deck.</Description>
+    <PackageProjectUrl>https://github.com/LarsGast/DeckOfPlayingCards</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LarsGast/DeckOfPlayingCards</RepositoryUrl>
+    <Copyright>Copyright (c) Lars Hoekstra 2026</Copyright>
     <PackageTags>card;cards;deck;deck of cards;poker;blackjack;playingcards</PackageTags>
-    <PackageReleaseNotes>- Added the possibility to create your own custom deck.
-- Added a public property `cards` to the Deck class</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/LarsGast/DeckOfPlayingCards/releases/tag/V2.0.0 for more info.
+- Rename package from "Deck of cards" to "Deck of playing cards"
+- BREAKING: Now targets .NET 10 instead of .NET 7
+- BREAKING: removed Card.getDisplayString()
+- BREAKING: removed Rank.getDisplayString()
+- BREAKING: removed Suit.getDisplayString()
+- BREAKING: Card is now a record struct instead of a class
+- BREAKING: All methods and properties are now PascalCase instead of camelCase
+- BREAKING: Moved the Rank enum to its own file
+- BREAKING: Renamed Rank enum to CardRank
+- BREAKING: Moved the Suit enum to its own file
+- BREAKING: Renamed Suit enum to CardSuit
+- BREAKING: Updated namespaces for all types
+- Fixed an issue where the current top non-drawn card would not be shuffled if `includeDrawnCards` was set to false
+- Fixed an issue where multiple of the same card would get removed after shuffling if `includeDrawnCards` was set to false</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
