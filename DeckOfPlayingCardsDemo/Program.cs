@@ -1,4 +1,4 @@
-using DeckOfPlayingCardsLibrary;
+using DeckOfPlayingCardsLibrary.Entities;
 using DeckOfPlayingCardsLibrary.Enums;
 
 namespace DeckOfPlayingCardsDemo

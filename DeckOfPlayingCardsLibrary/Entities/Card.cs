@@ -1,6 +1,6 @@
 using DeckOfPlayingCardsLibrary.Enums;
 
-namespace DeckOfPlayingCardsLibrary
+namespace DeckOfPlayingCardsLibrary.Entities
 {
     /// <summary>
     /// Represents a playing card with a rank and suit.

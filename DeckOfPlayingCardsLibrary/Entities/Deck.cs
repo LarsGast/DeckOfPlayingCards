@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using DeckOfPlayingCardsLibrary.Enums;
 
-namespace DeckOfPlayingCardsLibrary
+namespace DeckOfPlayingCardsLibrary.Entities
 {
     /// <summary>
     /// Represents a deck of playing cards.
