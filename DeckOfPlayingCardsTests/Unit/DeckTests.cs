@@ -113,7 +113,7 @@
         public void Shuffle_WhenIncludingDrawnCards_PreservesAllCards()
         {
             // Arrange
-            var twelfeJacks = new List<Card>
+            var twelveJacks = new List<Card>
             {
                 new(CardRank.Jack, CardSuit.Spades),
                 new(CardRank.Jack, CardSuit.Spades),
@@ -129,7 +129,7 @@
                 new(CardRank.Jack, CardSuit.Clubs),
             };
 
-            var deck = Deck.Get(twelfeJacks);
+            var deck = Deck.Get(twelveJacks);
             var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
 
             // Act
@@ -174,7 +174,7 @@
         public void Shuffle_WhenExcludingDrawnCards_PreservesAllCards()
         {
             // Arrange
-            var twelfeJacks = new List<Card>
+            var twelveJacks = new List<Card>
             {
                 new(CardRank.Jack, CardSuit.Spades),
                 new(CardRank.Jack, CardSuit.Spades),
@@ -190,7 +190,7 @@
                 new(CardRank.Jack, CardSuit.Clubs),
             };
 
-            var deck = Deck.Get(twelfeJacks);
+            var deck = Deck.Get(twelveJacks);
             var before = deck.Cards.OrderBy(card => (card.Rank, card.Suit)).ToList();
 
             // Act
